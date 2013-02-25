@@ -1,0 +1,22 @@
+{
+    "name": "jimbojsb/behat-extras",
+    "description": "Additional contexts and extensions for everyday Behat and Mink needs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Butts",
+            "email": "josh@joshbutts.com",
+            "role": "developer"
+        },
+        {
+            "name": "Dennis Heckman",
+            "email": "denheck@gmail.com",
+            "role": "developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "BehatExtras": "src/"
+        }
+    }
+}
