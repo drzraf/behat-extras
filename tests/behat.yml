@@ -1,0 +1,9 @@
+default:
+
+mongo:
+  extensions:
+    BehatExtras\Extension\MongoExtension:
+      host: localhost
+      database: test
+  context:
+    class: BehatExtras\Context\MongoFixturesContext
