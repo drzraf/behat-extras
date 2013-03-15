@@ -7,3 +7,14 @@ mongo:
       database: test
   context:
     class: BehatExtras\Context\MongoFixturesContext
+
+email:
+  extensions:
+    BehatExtras\Extension\InboxExtension:
+      protocol: pop3-ssl
+      host: pop.gmail.com
+      user: test@dailydeals.com
+      port: 995
+      password: 2ownDeals
+  context:
+    class: BehatExtras\Context\InboxContext
