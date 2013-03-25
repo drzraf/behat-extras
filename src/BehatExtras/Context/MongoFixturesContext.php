@@ -37,6 +37,13 @@ class MongoFixturesContext extends BehatContext implements ContextInterface, Mon
         foreach ($table->getHash() as $row) {
             $data = array();
             foreach ($row as $key => $value) {
+                if ($key != "_id") {
+                    $value = $value === "true" ? true : $value;
+                    $value = $value === "false" ? false : $value;
+                    $value = is_numeric($value) ? $value + 0 : $value;
+                }
+
+
                 if (strpos($key, "[]") !== false) {
                     $key = str_replace("[]", "", $key);
                     $data[$key] = explode(',', $value);
