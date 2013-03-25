@@ -1,9 +1,15 @@
 default:
 
-mongo:
   extensions:
     BehatExtras\Extension\MongoExtension:
       host: localhost
       database: test
-  context:
-    class: BehatExtras\Context\MongoFixturesContext
+    Behat\MinkExtension\Extension:
+          selenium2: ~
+          goutte: ~
+          default_session: goutte
+          base_url: 'http://localhost:8181'
+          javascript_session: selenium2
+          browser_name: firefox
+          selenium2:
+            wd_host: http://localhost:4444/wd/hub
