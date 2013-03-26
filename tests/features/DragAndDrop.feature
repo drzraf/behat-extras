@@ -6,4 +6,5 @@ Feature: Drag and Drop
 
   Scenario:
     Given I open "draganddrop.html"
-    When I drag ".ui-slider-handle" "50" pixels to the right
+    When I drag ".ui-slider-handle" "100" pixels to the right
+    And I drag ".ui-slider-handle" "50" pixels to the left

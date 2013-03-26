@@ -22,6 +22,14 @@ class DragAndDropContext extends BehatContext implements MinkAwareInterface
         $this->dragByPixels($element, $pixels, 0);
     }
 
+    /**
+     * @When /^I drag "([^"]*)" "([^"]*)" pixels to the left$/
+     */
+    public function iDragPixelsToTheLeft($element, $pixels)
+    {
+        $this->dragByPixels($element, -$pixels, 0);
+    }
+
     public function dragByPixels($selector, $pixelsX, $pixelsY)
     {
         $session = $this->mink->getSession()->getDriver()->getWebDriverSession();
@@ -30,6 +38,7 @@ class DragAndDropContext extends BehatContext implements MinkAwareInterface
         $session->buttondown("");
         $session->moveto(['element' => null, 'xoffset' => (int) $pixelsX, 'yoffset' => (int) $pixelsY]);
         $session->buttonup("");
+        usleep(50000);
     }
 
     /**
