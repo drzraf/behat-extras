@@ -35,7 +35,7 @@ class MongoFixturesContext extends BehatContext implements ContextInterface, Mon
     public function aNewDocumentWith($collection, PyStringNode $string)
     {
         $database = $this->mongoDatabase;
-        $obj = json_decode($string, true);
+        $obj = json_decode(trim(implode($string->getLines())), true);
         $this->mongoClient->$database->$collection->insert($obj);
     }
 
