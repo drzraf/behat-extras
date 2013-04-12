@@ -4,7 +4,8 @@ namespace BehatExtras\Context;
 use Behat\Behat\Context\BehatContext,
     Behat\Behat\Context\ContextInterface,
     Behat\Behat\Context\ExtendedContextInterface,
-    Behat\Gherkin\Node\TableNode;
+    Behat\Gherkin\Node\TableNode,
+    Behat\Gherkin\Node\PyStringNode;
 
 class MongoFixturesContext extends BehatContext implements ContextInterface, MongoAwareInterface, ExtendedContextInterface
 {
@@ -27,6 +28,17 @@ class MongoFixturesContext extends BehatContext implements ContextInterface, Mon
     {
         $this->mongoDatabase = $mongoDatabase;
     }
+
+    /**
+     * @Given /^a new "([^"]*)" document with:$/
+     */
+    public function aNewDocumentWith($collection, PyStringNode $string)
+    {
+        $database = $this->mongoDatabase;
+        $obj = json_decode($string, true);
+        $this->mongoClient->$database->$collection->insert($obj);
+    }
+
 
     /**
      * @Given /^an? "([^"]*)" collection with documents:$/

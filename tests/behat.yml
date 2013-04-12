@@ -8,7 +8,6 @@ default:
           selenium2: ~
           goutte: ~
           default_session: goutte
-          base_url: 'http://localhost:8181'
           javascript_session: selenium2
           browser_name: firefox
           selenium2:

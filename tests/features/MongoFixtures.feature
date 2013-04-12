@@ -10,3 +10,11 @@ Feature: Mongo Fixtures
     Given a "test" collection with documents:
     | name | foo.bar | baz[] |
     | test | baz     | 1,2,3 |
+
+  Scenario: raw json
+    Given a new "test" document with:
+    """
+    {
+        "name": "foo"
+    }
+    """

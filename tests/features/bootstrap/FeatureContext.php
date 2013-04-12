@@ -13,6 +13,7 @@ class FeatureContext extends MinkContext
     {
         $this->useContext('mongo_fixtures', new \BehatExtras\Context\MongoFixturesContext);
         $this->useContext('drag_and_drop', new \BehatExtras\Context\DragAndDropContext);
+        $this->useContext('wait', new BehatExtras\Context\WaitContext);
     }
 
     /**
