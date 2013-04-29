@@ -18,3 +18,16 @@ Feature: Mongo Fixtures
         "name": "foo"
     }
     """
+
+  #MongoObjects need to be in 24bit.  Otherwise, the driver will make its own using increments
+  #and the actual value in Mongo will be different.
+  Scenario: Mongo object fixtures
+    Given a "test" collection with documents:
+    | _id                                  | UnixTimestampDate               |  RegularDate                |
+    | ObjectId("ef959f706ccdc0b9a3eb5199") | Date(1445444940)                | Date("2010-01-15 00:00:00") |
+
+    And a "foreign" collection with documents:
+    | lookup                               |  foo       |
+    | ObjectId("ef959f706ccdc0b9a3eb5199") |  bar1      |
+    | ObjectId("ef959f706ccdc0b9a3eb5199") |  bar2      |
+    | ObjectId("ef959f706ccdc0b9a3eb5199") |  bar3      |
