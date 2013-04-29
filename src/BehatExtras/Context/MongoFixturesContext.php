@@ -48,13 +48,19 @@ class MongoFixturesContext extends BehatContext implements ContextInterface, Mon
         $this->sanityCheck();
         foreach ($table->getHash() as $row) {
             $data = array();
+            $mongoObjects = ['ObjectId(', 'Date('];
             foreach ($row as $key => $value) {
                 if ($key != "_id") {
                     $value = $value === "true" ? true : $value;
                     $value = $value === "false" ? false : $value;
                     $value = is_numeric($value) ? $value + 0 : $value;
+                    $value = $this->stringInArrayValues($mongoObjects, $value) === false ? $value : $this->parseMongoObjects($value);
+                } else {
+                    //Allow _id to be MongoIds.
+                    if (substr($value, 0, 9) == "ObjectId(") {
+                        $value = $this->parseMongoObjects($value);
+                    }
                 }
-
 
                 if (strpos($key, "[]") !== false) {
                     $key = str_replace("[]", "", $key);
@@ -93,4 +99,48 @@ class MongoFixturesContext extends BehatContext implements ContextInterface, Mon
         $this->mongoClient->dropDB($this->mongoDatabase);
     }
 
+    private function stringInArrayValues($haystack, $newHaystack) {
+        foreach ($haystack as $searchFor) {
+            if(strpos($newHaystack, $searchFor) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function parseMongoObjects($string) {
+        //Function to parse Mongo objects to the PHP driver equivalents
+
+        //Take off up to first paren and last paren
+        $firstParenPos = strpos($string, '(');
+        $objectValue = substr($string, $firstParenPos + 1);
+        $objectValue = substr($objectValue, 0, -1);
+
+        //Take off first and last ' or " if they're there.  Don't use strreplace in case of MongoRegex and MongoCode in the future
+        $firstChar = substr($objectValue, 0, 1);
+        $lastChar = substr($objectValue, -1, 1);
+        if ($firstChar == '\'' || $firstChar == '"') {
+            $objectValue = substr($objectValue, 1);
+        }
+
+        if ($lastChar == '\'' || $lastChar == '"') {
+            $objectValue = substr($objectValue, 0, -1);
+        }
+
+        //Returns
+        if (strpos($string, 'ObjectId(') !== false) {
+            return new \MongoId((string)$objectValue);
+        } else if (strpos($string, 'Date(') !== false) {
+            if (is_int($objectValue)) {
+                //unix timestamp
+                return new \MongoDate($objectValue);
+            } else {
+                //try strtotime
+                return new \MongoDate(strtotime($objectValue));
+            }
+        } else {
+            return false;
+        }
+    }
 }
