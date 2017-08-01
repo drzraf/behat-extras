@@ -11,7 +11,7 @@ class WebdriverContext extends MinkContext
      */
     public function confirmPopup()
     {
-        $this->getSession()->getDriver()->getWebDriverSession()->accept_alert();
+        $this->getSession()->getDriver()->acceptAlert();
     }
 
     /**
@@ -19,7 +19,7 @@ class WebdriverContext extends MinkContext
      */
     public function cancelPopup()
     {
-        $this->getSession()->getDriver()->getWebDriverSession()->dismiss_alert();
+        $this->getSession()->getDriver()->dismissAlert();
     }
 
     /**
@@ -31,7 +31,7 @@ class WebdriverContext extends MinkContext
      */
     public function assertPopupMessage($message)
     {
-        return $message == $this->getSession()->getDriver()->getWebDriverSession()->getAlert_text();
+        return $message == $this->getSession()->getDriver()->getAlert_text();
     }
 
     /**
@@ -41,6 +41,6 @@ class WebdriverContext extends MinkContext
      */
     public function setPopupText($test)
     {
-        $this->getSession()->getDriver()->getWebDriverSession()->postAlert_text($test);
+        $this->getSession()->getDriver()->postAlert_text($test);
     }
 }
